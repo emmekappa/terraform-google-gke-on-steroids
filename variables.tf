@@ -71,10 +71,12 @@ variable "vcs_type" {
 # github variables
 variable "github_org_name" {
   type = string
+  default = ""
 }
 
 variable "github_repository_name" {
   type = string
+  default = ""
 }
 
 variable "github_repository_branch" { default = "master" }
@@ -82,14 +84,17 @@ variable "github_repository_branch" { default = "master" }
 # gitlab variables
 variable "gitlab_group_name" {
   type = string
+  default = ""
 }
 
 variable "gitlab_project_name" {
   type = string
+  default = ""
 }
 
 variable "gitlab_project_id" {
   type = number
+  default = 0
 }
 
 variable "gitlab_repository_branch" { default = "master" }
