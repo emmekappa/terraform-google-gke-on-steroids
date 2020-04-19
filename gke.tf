@@ -51,23 +51,27 @@ resource "google_container_cluster" "primary" {
     }
   }
 
-  cluster_autoscaling {
-    enabled             = var.cluster_autoscaling.enabled
-    autoscaling_profile = var.cluster_autoscaling.autoscaling_profile
+  dynamic "cluster_autoscaling" {
+    for_each = var.cluster_autoscaling.enabled ? [var.cluster_autoscaling] : []
+    content {
+      enabled             = cluster_autoscaling.value.enabled
+      autoscaling_profile = cluster_autoscaling.value.autoscaling_profile
 
-    auto_provisioning_defaults {
-      oauth_scopes = local.oauth_scopes
-    }
-    resource_limits {
-      resource_type = "cpu"
-      minimum       = var.cluster_autoscaling.cpu_min
-      maximum       = var.cluster_autoscaling.cpu_max
-    }
+      auto_provisioning_defaults {
+        oauth_scopes = local.oauth_scopes
+      }
 
-    resource_limits {
-      resource_type = "memory"
-      minimum       = var.cluster_autoscaling.ram_min
-      maximum       = var.cluster_autoscaling.ram_max
+      resource_limits {
+        resource_type = "cpu"
+        minimum       = cluster_autoscaling.value.cpu_min
+        maximum       = cluster_autoscaling.value.cpu_max
+      }
+
+      resource_limits {
+        resource_type = "memory"
+        minimum       = cluster_autoscaling.value.ram_min
+        maximum       = cluster_autoscaling.value.ram_max
+      }
     }
   }
 
