@@ -2,7 +2,7 @@ locals {
   flux_ns = "flux"
   available_git_url = {
     "github" = "git@github.com:${var.github_org_name}/${var.github_repository_name}",
-    "gitlab" = "git@gitlab.com:${var.gitlab_group_name}/${var.gitlab_repository_name}"
+    "gitlab" = "git@gitlab.com:${var.gitlab_group_name}/${var.gitlab_project_name}"
   }
 
   git_url = lookup(local.available_git_url, var.vcs_type)

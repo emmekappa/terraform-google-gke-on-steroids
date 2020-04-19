@@ -84,7 +84,7 @@ variable "gitlab_group_name" {
   type = string
 }
 
-variable "gitlab_repository_name" {
+variable "gitlab_project_name" {
   type = string
 }
 
