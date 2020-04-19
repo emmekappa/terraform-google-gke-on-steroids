@@ -88,6 +88,10 @@ variable "gitlab_repository_name" {
   type = string
 }
 
+variable "gitlab_project_id" {
+  type = number
+}
+
 variable "gitlab_repository_branch" { default = "master" }
 
 variable "flux_path" {

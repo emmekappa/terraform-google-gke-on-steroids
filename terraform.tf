@@ -6,5 +6,6 @@ terraform {
     helm        = ">= 1.0.0"
     github      = ">= 2.4"
     tls         = ">= 2.1"
+    gitlab      = ">= 2.6"
   }
 }
