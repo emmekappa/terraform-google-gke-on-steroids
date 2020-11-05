@@ -23,7 +23,6 @@ resource "helm_release" "external-dns" {
   repository   = "https://charts.bitnami.com/bitnami"
   name         = "external-dns"
   namespace    = local.external_dns_namespace
-  force_update = true
   version      = "3.5.1"
 
   set {
