@@ -54,7 +54,7 @@ variable "default_node_pool" {
     auto_repair        = true
     auto_upgrade       = false
     preemptible_nodes  = true
-    machine_type       = "n1-standard-2"
+    machine_type       = "e2-standard-2"
   }
 }
 
