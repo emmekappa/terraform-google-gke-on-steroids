@@ -52,7 +52,7 @@ variable "default_node_pool" {
     max_surge          = 1
     max_unavailable    = 0
     auto_repair        = true
-    auto_upgrade       = false
+    auto_upgrade       = true
     preemptible_nodes  = true
     machine_type       = "e2-standard-2"
   }
