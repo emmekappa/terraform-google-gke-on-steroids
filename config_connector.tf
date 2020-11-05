@@ -26,7 +26,7 @@ resource "google_service_account_iam_member" "config_connector_workloadIdentityU
 //    metadata = {
 //      # the name is restricted to ensure that there is only one
 //      # ConfigConnector instance installed in your cluster
-//      name = "configconnector.core.cnrm.cloud.google.com"
+//      name = "configconnector.core.cπnrm.cloud.google.com"
 //    }
 //    spec = {
 //      mode                 = "cluster"
