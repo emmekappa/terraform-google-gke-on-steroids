@@ -21,7 +21,7 @@ resource "kubernetes_namespace" "flux" {
     name = local.flux_ns
   }
 
-  depends_on = [google_container_cluster.primary]
+  depends_on = [google_container_cluster.default]
 }
 
 resource "tls_private_key" "flux" {

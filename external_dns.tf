@@ -15,7 +15,7 @@ resource "kubernetes_namespace" "external_dns" {
     ]
   }
 
-  depends_on = [google_container_cluster.primary]
+  depends_on = [google_container_cluster.default]
 }
 
 resource "google_service_account" "external_dns" {
@@ -47,7 +47,7 @@ resource "kubernetes_secret" "external_dns_service_account_secret" {
     "credentials.json" = base64decode(google_service_account_key.external_dns.private_key)
   }
 
-  depends_on = [google_container_cluster.primary]
+  depends_on = [google_container_cluster.default]
 }
 
 resource "helm_release" "external-dns" {

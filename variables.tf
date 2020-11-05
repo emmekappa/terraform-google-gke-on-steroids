@@ -14,7 +14,14 @@ variable "cloudrun_disabled" { default = true }
 
 variable "flux_enabled" { default = true }
 
-variable "primary_nodes" {
+variable "config_connector_config_enabled" { default = false }
+
+variable "additional_oauth_scopes" {
+  type    = list(string)
+  default = []
+}
+
+variable "default_node_pool" {
   type = object({
     enabled            = bool,
     initial_node_count = number

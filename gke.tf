@@ -8,7 +8,10 @@ locals {
     "https://www.googleapis.com/auth/trace.append"
   ]
 }
-resource "google_container_cluster" "primary" {
+
+data "google_project" "project" {}
+
+resource "google_container_cluster" "default" {
   name     = var.cluster_name
   location = var.cluster_location
   provider = google-beta
@@ -35,6 +38,10 @@ resource "google_container_cluster" "primary" {
     }
   }
 
+  workload_identity_config {
+    identity_namespace = "${data.google_project.project.project_id}.svc.id.goog"
+  }
+
   addons_config {
     istio_config {
       disabled = var.istio_disabled
@@ -42,6 +49,10 @@ resource "google_container_cluster" "primary" {
 
     cloudrun_config {
       disabled = var.cloudrun_disabled
+    }
+
+    config_connector_config {
+      enabled = var.config_connector_config_enabled
     }
   }
 
@@ -58,7 +69,7 @@ resource "google_container_cluster" "primary" {
       autoscaling_profile = cluster_autoscaling.value.autoscaling_profile
 
       auto_provisioning_defaults {
-        oauth_scopes = local.oauth_scopes
+        oauth_scopes = concat(local.oauth_scopes, var.additional_oauth_scopes)
       }
 
       resource_limits {
@@ -81,38 +92,38 @@ resource "google_container_cluster" "primary" {
 
 }
 
-resource "google_container_node_pool" "primary_preemptible_nodes" {
-  count      = var.primary_nodes.enabled ? 1 : 0
+resource "google_container_node_pool" "default" {
+  count      = var.default_node_pool.enabled ? 1 : 0
   name       = "${var.cluster_name}-node-pool"
   location   = var.cluster_location
-  cluster    = google_container_cluster.primary.name
-  node_count = var.primary_nodes.initial_node_count
+  cluster    = google_container_cluster.default.name
+  node_count = var.default_node_pool.initial_node_count
   provider   = google-beta
 
   management {
-    auto_repair  = var.primary_nodes.auto_repair
-    auto_upgrade = var.primary_nodes.auto_upgrade
+    auto_repair  = var.default_node_pool.auto_repair
+    auto_upgrade = var.default_node_pool.auto_upgrade
   }
 
   autoscaling {
-    min_node_count = var.primary_nodes.min_node
-    max_node_count = var.primary_nodes.max_node
+    min_node_count = var.default_node_pool.min_node
+    max_node_count = var.default_node_pool.max_node
   }
 
   upgrade_settings {
-    max_surge       = var.primary_nodes.max_surge
-    max_unavailable = var.primary_nodes.max_unavailable
+    max_surge       = var.default_node_pool.max_surge
+    max_unavailable = var.default_node_pool.max_unavailable
   }
 
   node_config {
-    preemptible  = var.primary_nodes.preemptible_nodes
-    machine_type = var.primary_nodes.machine_type
+    preemptible  = var.default_node_pool.preemptible_nodes
+    machine_type = var.default_node_pool.machine_type
 
     metadata = {
       disable-legacy-endpoints = "true"
     }
 
-    oauth_scopes = local.oauth_scopes
+    oauth_scopes = concat(local.oauth_scopes, var.additional_oauth_scopes)
   }
 
   lifecycle {
