@@ -19,11 +19,12 @@ resource "kubernetes_namespace" "external_dns" {
 }
 
 resource "helm_release" "external-dns" {
-  chart      = "external-dns"
-  repository = "https://charts.bitnami.com/bitnami"
-  name       = "external-dns"
-  namespace  = local.external_dns_namespace
-  version    = "3.5.1"
+  chart        = "external-dns"
+  repository   = "https://charts.bitnami.com/bitnami"
+  name         = "external-dns"
+  namespace    = local.external_dns_namespace
+  version      = "3.5.1"
+  force_update = true
 
   set {
     name  = "provider"
