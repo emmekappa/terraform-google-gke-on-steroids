@@ -9,4 +9,4 @@ fmt:
 
 
 validate:
-	terraform validate
+	GITLAB_TOKEN="fake" terraform validate

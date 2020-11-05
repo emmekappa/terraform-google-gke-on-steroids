@@ -1,17 +1,17 @@
 locals {
   flux_ns = "flux"
-  available_git_url = {
-    "github" = "git@github.com:${var.github_org_name}/${var.github_repository_name}",
-    "gitlab" = "git@gitlab.com:${var.gitlab_group_name}/${var.gitlab_project_name}"
-  }
-
-  git_url = lookup(local.available_git_url, var.vcs_type)
-
-  available_git_branch = {
-    "github" = var.github_repository_branch
-    "gitlab" = var.gitlab_repository_branch
-  }
-  git_branch = lookup(local.available_git_branch, var.vcs_type)
+  //  available_git_url = {
+  //    "github" = "git@github.com:${var.github_org_name}/${var.github_repository_name}",
+  //    "gitlab" = "git@gitlab.com:${var.gitlab_group_name}/${var.gitlab_project_name}"
+  //  }
+  //
+  //  git_url = lookup(local.available_git_url, var.vcs_type)
+  //
+  //  available_git_branch = {
+  //    "github" = var.github_repository_branch
+  //    "gitlab" = var.gitlab_repository_branch
+  //  }
+  //  git_branch = lookup(local.available_git_branch, var.vcs_type)
 }
 
 resource "kubernetes_namespace" "flux" {
@@ -22,11 +22,6 @@ resource "kubernetes_namespace" "flux" {
   }
 
   depends_on = [google_container_cluster.default]
-}
-
-resource "tls_private_key" "flux" {
-  algorithm = "RSA"
-  rsa_bits  = 2048
 }
 
 resource "kubernetes_secret" "flux-git-deploy" {
@@ -40,12 +35,11 @@ resource "kubernetes_secret" "flux-git-deploy" {
   type = "Opaque"
 
   data = {
-    identity = tls_private_key.flux.private_key_pem
+    identity = var.private_key_pem
   }
 
   depends_on = [kubernetes_namespace.flux]
 }
-
 
 resource "helm_release" "flux" {
   count = var.flux_enabled ? 1 : 0
@@ -55,16 +49,16 @@ resource "helm_release" "flux" {
   repository = "https://charts.fluxcd.io"
   chart      = "flux"
   #force_update = "true"
-  version = "1.2.0"
+  version = var.flux_chart_version
 
   set {
     name  = "git.url"
-    value = local.git_url
+    value = var.git_ssh_url
   }
 
   set {
     name  = "git.branch"
-    value = local.git_branch
+    value = var.git_branch
   }
 
   set {
@@ -115,7 +109,7 @@ resource "helm_release" "flux-helm-operator" {
   repository = "https://charts.fluxcd.io"
   chart      = "helm-operator"
   #force_update = "true"
-  version = "0.7.0"
+  version = var.flux_helm_operator_chart_version
 
   set {
     name  = "createCRD"

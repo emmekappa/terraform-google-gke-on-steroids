@@ -71,41 +71,6 @@ variable "cluster_autoscaling" {
   }
 }
 
-variable "vcs_type" {
-  type = string
-}
-
-# github variables
-variable "github_org_name" {
-  type    = string
-  default = ""
-}
-
-variable "github_repository_name" {
-  type    = string
-  default = ""
-}
-
-variable "github_repository_branch" { default = "master" }
-
-# gitlab variables
-variable "gitlab_group_name" {
-  type    = string
-  default = ""
-}
-
-variable "gitlab_project_name" {
-  type    = string
-  default = ""
-}
-
-variable "gitlab_project_id" {
-  type    = number
-  default = 0
-}
-
-variable "gitlab_repository_branch" { default = "master" }
-
 variable "flux_path" {
   description = "Flux base path related to repository root (i.e. 'k8s/')."
 }
@@ -175,4 +140,30 @@ variable "fluxcloud_chart_verion" {
 
 variable "release_channel" {
   default = "REGULAR"
+}
+
+variable "private_key_pem" {
+  description = "Flux private key"
+}
+
+variable "git_branch" {
+  description = "Git branch used by Flux"
+}
+
+variable "git_ssh_url" {
+  description = "Git url in ssh scheme (used by Flux)"
+}
+
+variable "git_http_url" {
+  description = "Git url in HTTP scheme"
+}
+
+variable "flux_helm_operator_chart_version" {
+  default     = "0.7.0" # 1.2.0
+  description = "Flux helm operator chart version  https://github.com/fluxcd/helm-operator/tree/master/chart/helm-operator"
+}
+
+variable "flux_chart_version" {
+  default     = "1.2.0" # 1.5.0
+  description = "Flux chart version https://github.com/fluxcd/flux/tree/master/chart"
 }

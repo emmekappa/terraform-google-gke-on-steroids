@@ -6,13 +6,5 @@ terraform {
     helm        = ">= 1.3.2"
     github      = ">= 3.0"
     tls         = ">= 2.1"
-    gitlab = {
-      source  = "gitlabhq/gitlab"
-      version = ">= 3.1.0"
-    }
   }
-}
-
-provider "gitlab" {
-  token = ""
 }

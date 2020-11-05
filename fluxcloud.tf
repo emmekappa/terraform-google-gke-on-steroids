@@ -1,7 +1,3 @@
-locals {
-  fluxcloud_githubUrl = var.fluxcloud_github_url == "" ? "https://github.com/${var.github_org_name}/${var.github_repository_name}" : var.fluxcloud_github_url
-}
-
 resource "helm_release" "fluxcloud" {
   count      = var.fluxcloud_enabled ? 1 : 0
   name       = "fluxcloud"
@@ -37,6 +33,6 @@ resource "helm_release" "fluxcloud" {
 
   set {
     name  = "fluxcloud.slack.githubUrl"
-    value = local.fluxcloud_githubUrl
+    value = var.git_http_url
   }
 }
