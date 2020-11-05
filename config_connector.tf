@@ -28,7 +28,7 @@ resource "kubernetes_manifest" "config_connector" {
     metadata = {
       # the name is restricted to ensure that there is only one
       # ConfigConnector instance installed in your cluster
-      name = "configconnector.core.cπnrm.cloud.google.com"
+      name = "configconnector.core.cnrm.cloud.google.com"
     }
     spec = {
       mode                 = "cluster"
