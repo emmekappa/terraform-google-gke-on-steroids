@@ -1,12 +1,22 @@
-variable "region" {}
+variable "gcp_region" {
+  description = "Google Cloud Platform region"
+}
 
-variable "project" {}
+variable "gcp_project_id" {
+  description = "Google Cloud Platform project"
+}
 
-variable "gcp_credentials" {}
+variable "gcp_credentials" {
+  description = "Google Cloud Platform service credential json"
+}
 
-variable "cluster_location" {}
+variable "cluster_location" {
+  description = "Google Kubernetes Engine cluster location"
+}
 
-variable "cluster_name" {}
+variable "cluster_name" {
+  description = "Google Kubernetes Engine cluster name"
+}
 
 variable "istio_disabled" { default = true }
 
