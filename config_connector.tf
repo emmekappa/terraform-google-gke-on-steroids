@@ -33,4 +33,5 @@ resource "kubernetes_manifest" "config_connector" {
       googleServiceAccount = google_service_account.config_connector[count.index].email
     }
   }
+  depends_on = [google_service_account.config_connector]
 }
