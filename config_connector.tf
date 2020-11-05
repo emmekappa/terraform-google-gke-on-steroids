@@ -17,21 +17,21 @@ resource "google_service_account_iam_member" "config_connector_workloadIdentityU
   service_account_id = google_service_account.config_connector[count.index].name
 }
 
-resource "kubernetes_manifest" "config_connector" {
-  count    = var.config_connector_config_enabled ? 1 : 0
-  provider = kubernetes-alpha
-  manifest = {
-    apiVersion = "core.cnrm.cloud.google.com/v1beta1"
-    kind       = "ConfigConnector"
-    metadata = {
-      # the name is restricted to ensure that there is only one
-      # ConfigConnector instance installed in your cluster
-      name = "configconnector.core.cnrm.cloud.google.com"
-    }
-    spec = {
-      mode                 = "cluster"
-      googleServiceAccount = google_service_account.config_connector[count.index].email
-    }
-  }
-  depends_on = [google_service_account.config_connector]
-}
+//resource "kubernetes_manifest" "config_connector" {
+//  count    = var.config_connector_config_enabled ? 1 : 0
+//  provider = kubernetes-alpha
+//  manifest = {
+//    apiVersion = "core.cnrm.cloud.google.com/v1beta1"
+//    kind       = "ConfigConnector"
+//    metadata = {
+//      # the name is restricted to ensure that there is only one
+//      # ConfigConnector instance installed in your cluster
+//      name = "configconnector.core.cnrm.cloud.google.com"
+//    }
+//    spec = {
+//      mode                 = "cluster"
+//      googleServiceAccount = google_service_account.config_connector[count.index].email
+//    }
+//  }
+//  depends_on = [google_service_account.config_connector]
+//}
