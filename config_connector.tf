@@ -14,5 +14,5 @@ resource "google_service_account_iam_member" "config_connector_workloadIdentityU
   count              = var.config_connector_config_enabled ? 1 : 0
   member             = "serviceAccount:${var.gcp_project_id}.svc.id.goog[cnrm-system/cnrm-controller-manager]"
   role               = "roles/iam.workloadIdentityUser"
-  service_account_id = google_service_account.config_connector[count.index].account_id
+  service_account_id = google_service_account.config_connector[count.index].name
 }
