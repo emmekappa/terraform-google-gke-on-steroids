@@ -169,11 +169,11 @@ variable "git_http_url" {
 }
 
 variable "flux_helm_operator_chart_version" {
-  default     = "0.7.0" # 1.2.0
+  default     = "1.2.0"
   description = "Flux helm operator chart version  https://github.com/fluxcd/helm-operator/tree/master/chart/helm-operator"
 }
 
 variable "flux_chart_version" {
-  default     = "1.2.0" # 1.5.0
+  default     = "1.5.0"
   description = "Flux chart version https://github.com/fluxcd/flux/tree/master/chart"
 }
