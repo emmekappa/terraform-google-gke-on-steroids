@@ -6,7 +6,8 @@ locals {
     "https://www.googleapis.com/auth/service.management.readonly",
     "https://www.googleapis.com/auth/servicecontrol",
     "https://www.googleapis.com/auth/trace.append",
-    "https://www.googleapis.com/auth/ndev.clouddns.readwrite"
+    "https://www.googleapis.com/auth/ndev.clouddns.readwrite",
+    "https://www.googleapis.com/auth/cloud-platform"
   ]
 }
 
