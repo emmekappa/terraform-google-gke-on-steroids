@@ -133,5 +133,4 @@ resource "google_container_node_pool" "default" {
       node_count
     ]
   }
-
 }

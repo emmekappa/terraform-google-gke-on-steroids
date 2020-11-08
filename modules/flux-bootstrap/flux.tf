@@ -1,32 +1,14 @@
 locals {
   flux_ns = "flux"
-  //  available_git_url = {
-  //    "github" = "git@github.com:${var.github_org_name}/${var.github_repository_name}",
-  //    "gitlab" = "git@gitlab.com:${var.gitlab_group_name}/${var.gitlab_project_name}"
-  //  }
-  //
-  //  git_url = lookup(local.available_git_url, var.vcs_type)
-  //
-  //  available_git_branch = {
-  //    "github" = var.github_repository_branch
-  //    "gitlab" = var.gitlab_repository_branch
-  //  }
-  //  git_branch = lookup(local.available_git_branch, var.vcs_type)
 }
 
 resource "kubernetes_namespace" "flux" {
-  count = var.flux_enabled ? 1 : 0
-
   metadata {
     name = local.flux_ns
   }
-
-  depends_on = [google_container_cluster.default]
 }
 
 resource "kubernetes_secret" "flux-git-deploy" {
-  count = var.flux_enabled ? 1 : 0
-
   metadata {
     name      = "flux-ssh"
     namespace = local.flux_ns
@@ -42,8 +24,6 @@ resource "kubernetes_secret" "flux-git-deploy" {
 }
 
 resource "helm_release" "flux" {
-  count = var.flux_enabled ? 1 : 0
-
   name       = "flux"
   namespace  = local.flux_ns
   repository = "https://charts.fluxcd.io"
@@ -83,7 +63,7 @@ resource "helm_release" "flux" {
 
   set {
     name  = "git.secretName"
-    value = kubernetes_secret.flux-git-deploy[count.index].metadata[0].name
+    value = kubernetes_secret.flux-git-deploy.metadata[0].name
   }
 
   set {
@@ -103,7 +83,6 @@ resource "helm_release" "flux" {
 }
 
 resource "helm_release" "flux-helm-operator" {
-  count      = var.flux_enabled ? 1 : 0
   name       = "flux-helm-operator"
   namespace  = local.flux_ns
   repository = "https://charts.fluxcd.io"
@@ -133,7 +112,7 @@ resource "helm_release" "flux-helm-operator" {
 
   set {
     name  = "git.ssh.secretName"
-    value = kubernetes_secret.flux-git-deploy[count.index].metadata[0].name
+    value = kubernetes_secret.flux-git-deploy.metadata[0].name
   }
 
   depends_on = [kubernetes_secret.flux-git-deploy]

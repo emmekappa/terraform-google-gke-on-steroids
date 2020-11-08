@@ -1,0 +1,11 @@
+apiVersion: v2
+name: ConfigConnector
+version: 0.1.0
+keywords:
+  - gke
+  - config connector
+kubeVersion: ">= 1.15.0 || >= 1.15.0-0"
+maintainers:
+  - name: Datadrivers GmbH
+    email: info@datadrivers.de
+    url: www.datadrivers.de
